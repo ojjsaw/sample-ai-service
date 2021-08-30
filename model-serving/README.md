@@ -22,5 +22,5 @@ ojjsaw/classifyserver            latest                 e822eaa5f54b   28 second
 ```
 
 ```
-docker run --rm -it ojjsaw/classifyserver:latest .
+docker run --rm -it -p 9001:9001 -p 8001:8001 ojjsaw/classifyserver:latest .
 ```
