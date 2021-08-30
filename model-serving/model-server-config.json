@@ -1,0 +1,12 @@
+{
+    "model_config_list":[
+       {
+          "config":{
+             "name":"classifyballs",
+             "base_path":"/models/classifyballs",
+             "layout": "NHWC",
+             "target_device": "CPU"
+          }
+       }
+    ]
+ }
