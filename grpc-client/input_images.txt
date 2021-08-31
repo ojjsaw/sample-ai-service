@@ -1,0 +1,2 @@
+test-data/basketball/unnamed.jpg 1
+test-data/baseball/images.jpg 0

@@ -1,2 +1,0 @@
-/home/ojjsaw/ovms-test/sample-ai-service/imgdata/test/basketball/unnamed.jpg 1
-/home/ojjsaw/ovms-test/sample-ai-service/imgdata/test/baseball/images.jpg 0

@@ -23,3 +23,12 @@ baseball  0.0008195
 --------------------------------
 gRPC client request-response time to ai-service:  9.18 ms
 ```
+
+Build grpc client microservice
+```
+docker build -t ojjsaw/grpc-client:latest .
+```
+
+```
+docker run --rm -it ojjsaw/grpc-client:latest /bin/bash
+```

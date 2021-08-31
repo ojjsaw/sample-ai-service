@@ -7,9 +7,11 @@ import argparse
 
 # args for the microservice
 parser = argparse.ArgumentParser(description='Sends requests via TFS gRPC API. Displays performance')
-parser.add_argument('--images_list', required=False, default="../imgdata/input_images.txt", help='default: ../imgdata/input_images.txt file of labeled images e.g. images/x.jpg 104')
+parser.add_argument('--images_list', required=False, default="input_images.txt", help='default: input_images.txt file of labeled images e.g. images/x.jpg 104')
 parser.add_argument('--size', required=False, default=224, help='width=height default: 224')
-parser.add_argument('--labels_list', required=False, default="../model-serving/converted_savedmodel/labels.txt", help='e.g. id labelstring')
+parser.add_argument('--labels_list', required=False, default="labels.txt", help='default labels.txt e.g. id labelstring')
+parser.add_argument('--address', required=False, default='127.0.0.1', help='grpc ip address default: 127.0.0.1')
+parser.add_argument('--port', required=False, default=9001, help='grpc port default: 9001')
 args = vars(parser.parse_args())
 print(args)
 
@@ -33,7 +35,7 @@ for line in lines:
     path_array.append(path)
 
 # grpc initialization
-address = "{}:{}".format("127.0.0.1",9001)
+address = "{}:{}".format(args['address'],args['port'])
 channel = grpc.insecure_channel(address)
 stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
 request = predict_pb2.PredictRequest()
@@ -55,7 +57,7 @@ output = make_ndarray(result.outputs["StatefulPartitionedCall/sequential_4/seque
 with open(args['labels_list'], 'r') as f:
     labels_map = [x.split(sep=' ', maxsplit=1)[-1].strip() for x in f]
 
-print("Input: " + path_array[0])
+print("\nInput: " + path_array[0])
 classid_str = "ClassID"
 probability_str = "Probability"
 for i, probs in enumerate(output):
