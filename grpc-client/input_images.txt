@@ -1,2 +1,10 @@
-test-data/basketball/unnamed.jpg 1
-test-data/baseball/images.jpg 0
+test-data/baseball/t1.jpg 0
+test-data/basketball/t3.png 1
+test-data/cricketball/t5.jpg 2
+test-data/tennisball/t7.jpg 3
+test-data/unknown/t9.jpeg 4
+test-data/baseball/t2.jpg 0
+test-data/basketball/t4.jpg 1
+test-data/cricketball/t6.png 2
+test-data/tennisball/t8.png 3
+test-data/unknown/t10.jpg 4

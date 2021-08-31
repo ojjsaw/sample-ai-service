@@ -30,5 +30,5 @@ docker build -t ojjsaw/grpc-client:latest .
 ```
 
 ```
-docker run --rm -it ojjsaw/grpc-client:latest /bin/bash
+docker run --rm -it ojjsaw/grpc-client:latest
 ```

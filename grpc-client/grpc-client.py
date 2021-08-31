@@ -42,42 +42,62 @@ request = predict_pb2.PredictRequest()
 request.model_spec.name = "classifyballs"
 
 frame_counter = 0
-start_time = 0
-end_time = 0
 
-img = img_array[0:1]
-request.inputs["sequential_1_input"].CopyFrom(make_tensor_proto(img, shape=(img.shape)))
+# grpc img data requests for inference processing
+length = len(img_array)
+output_array = []
+duration_array = []
+for i in range(length):
+    img = img_array[i:i+1]
+    request.inputs["sequential_1_input"].CopyFrom(make_tensor_proto(img, shape=(img.shape)))
 
-start_time = datetime.datetime.now()
-result = stub.Predict(request, 10.0) # result includes a dictionary with all model outputs
-end_time = datetime.datetime.now()
+    start_time = datetime.datetime.now()
+    result = stub.Predict(request, 10.0) # result includes a dictionary with all model outputs
+    end_time = datetime.datetime.now()
+    duration_array.append((end_time - start_time).total_seconds()*1000)
 
-output = make_ndarray(result.outputs["StatefulPartitionedCall/sequential_4/sequential_3/dense_Dense2/Softmax"])
+    output = make_ndarray(result.outputs["StatefulPartitionedCall/sequential_4/sequential_3/dense_Dense2/Softmax"])
+    output_array.append(output)
 
+# display results and metrics
 with open(args['labels_list'], 'r') as f:
     labels_map = [x.split(sep=' ', maxsplit=1)[-1].strip() for x in f]
 
-print("\nInput: " + path_array[0])
-classid_str = "ClassID"
-probability_str = "Probability"
-for i, probs in enumerate(output):
-    probs = np.squeeze(probs)
-    top_ind = np.argsort(probs)[-10:][::-1]
-    print(classid_str, probability_str)
-    print("{} {}".format('-' * len(classid_str), '-' * len(probability_str)))
-    for id in top_ind:
-        det_label = labels_map[id] if labels_map else "{}".format(id)
-        label_length = len(det_label)
-        space_num_before = (len(classid_str) - label_length) // 2
-        space_num_after = len(classid_str) - (space_num_before + label_length) + 2
-        space_num_before_prob = (len(probability_str) - len(str(probs[id]))) // 2
-        print("{}{}{}{}{:.7f}".format(' ' * space_num_before, det_label,
-                                          ' ' * space_num_after, ' ' * space_num_before_prob,
-                                          probs[id]))
+for i in range(length):
+    output = output_array[i]
+    print("\nInput: " + path_array[i])
+    print("gRPC response time to ai-service: ", '{:.2f} ms'.format(duration_array[i]))
+    classid_str = "ClassID"
+    probability_str = "Probability"
+    for i, probs in enumerate(output):
+        probs = np.squeeze(probs)
+        top_ind = np.argsort(probs)[-10:][::-1]
+        print(classid_str, probability_str)
+        print("{} {}".format('-' * len(classid_str), '-' * len(probability_str)))
+        for id in top_ind:
+            det_label = labels_map[id] if labels_map else "{}".format(id)
+            label_length = len(det_label)
+            space_num_before = (len(classid_str) - label_length) // 2
+            space_num_after = len(classid_str) - (space_num_before + label_length) + 2
+            space_num_before_prob = (len(probability_str) - len(str(probs[id]))) // 2
+            print("{}{}{}{}{:.7f}".format(' ' * space_num_before, det_label,
+                                            ' ' * space_num_after, ' ' * space_num_before_prob,
+                                            probs[id]))
 
-duration =  '{:.2f} ms'.format((end_time - start_time).total_seconds()*1000)       
-print("--------------------------------")
-print("gRPC client request-response time to ai-service: ", duration)
+    print("\n-----------------")
+
+sum_total = 0
+for i in range(length):
+    sum_total = sum_total + duration_array[i]
+
+print("\ngRPC microservice to OpenVINO Inference Service")
+print("[Mobilenet 224x224 Image Classification]")
+print("--------------------------------------------------")
+
+print("Average response time: ", '{:.2f} ms'.format(sum_total/length))
+print("Client microservice can process", '{:.2f} frames per second.'.format(1000/(sum_total/length)))
+
+    
 
 
 
