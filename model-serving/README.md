@@ -98,3 +98,12 @@ curl http://127.0.0.1:8001/v1/models/classifyballs/versions/1/metadata
  }
 }
 ```
+
+
+### Tensorflow Serving Test
+
+```
+docker run -it --rm -p 8500:8500 -p 8501:8501   -v "/home/ojjsaw/ovms-test/sample-ai-service/model-serving/tf_model:/models/classifyballs"     -e MODEL_NAME=classifyballs     tensorflow/serving:latest
+
+curl http://127.0.0.1:8501/v1/models/classifyballs/versions/1/metadata
+```
