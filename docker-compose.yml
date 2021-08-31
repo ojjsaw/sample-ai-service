@@ -1,0 +1,11 @@
+version: "3.9"  # optional since v1.27.0
+
+services:
+  ai-service:
+    image: ojjsaw/classifyserver:latest
+    ports:
+      - "9001:9001"
+      - "8001:8001"
+  client-service:
+    image: ojjsaw/grpc-client:latest
+    command: --address=172.26.252.101

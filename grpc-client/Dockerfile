@@ -13,6 +13,5 @@ COPY test-data /app/test-data
 RUN pip3 install --no-cache-dir -r requirements.txt
 RUN rm -rf /var/lib/apt/lists/*
 
-CMD ["/app/grpc-client.py"]
-ENTRYPOINT [ "python3" ]
+ENTRYPOINT [ "python3", "/app/grpc-client.py"]
 

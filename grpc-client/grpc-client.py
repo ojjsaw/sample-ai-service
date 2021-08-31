@@ -4,6 +4,7 @@ from tensorflow import make_tensor_proto, make_ndarray
 from tensorflow_serving.apis import predict_pb2
 from tensorflow_serving.apis import prediction_service_pb2_grpc
 import argparse
+import time
 
 # args for the microservice
 parser = argparse.ArgumentParser(description='Sends requests via TFS gRPC API. Displays performance')
@@ -14,6 +15,9 @@ parser.add_argument('--address', required=False, default='127.0.0.1', help='grpc
 parser.add_argument('--port', required=False, default=9001, help='grpc port default: 9001')
 args = vars(parser.parse_args())
 print(args)
+print("starting client test....")
+
+time.sleep(5)
 
 # read input image list
 with open(args['images_list']) as f:
