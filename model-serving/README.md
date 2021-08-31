@@ -27,7 +27,7 @@ ojjsaw/classifyserver            latest                 e822eaa5f54b   28 second
 
 Run the ai-service
 ```
-docker run --rm -it -p 9001:9001 -p 8001:8001 ojjsaw/classifyserver:latest .
+docker run --rm -it -p 9001:9001 -p 8001:8001 ojjsaw/classifyserver:latest
 ```
 
 Verify models available in the ai-service.
