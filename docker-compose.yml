@@ -8,4 +8,4 @@ services:
       - "8001:8001"
   client-service:
     image: ojjsaw/grpc-client:latest
-    command: --address=172.26.252.101
+    command: --address=127.0.0.1
