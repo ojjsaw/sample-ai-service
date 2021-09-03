@@ -1,0 +1,13 @@
+version: "3"  # optional since v1.27.0
+
+services:
+  ai-service:
+    image: ojjsaw/classifyserver:latest
+    ports:
+      - "9001:9001"
+      - "8001:8001"
+  client-service:
+    image: ojjsaw/rest-client:latest
+    command: --rest_url http://ai-service
+    deploy:
+      replicas: 3    
