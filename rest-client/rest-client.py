@@ -21,7 +21,7 @@ parser = argparse.ArgumentParser(description='Sends requests via TFS REST API. D
 parser.add_argument('--images_dir', required=False, default="test-data", help='default: test-data/baseball directory of test images')
 parser.add_argument('--size', required=False, default=224, help='width=height default: 224')
 parser.add_argument('--labels_list', required=False, default="labels.txt", help='default labels.txt e.g. id labelstring')
-parser.add_argument('--rest_url', required=False, default='http://localhost', help='rest url default: http://localhost')
+parser.add_argument('--rest_url', required=False, default='http://localhost', help='rest url default: http://test-server')
 parser.add_argument('--rest_port', required=False, default=8001, help='rest port default: 8001')
 args = vars(parser.parse_args())
 print(args)
